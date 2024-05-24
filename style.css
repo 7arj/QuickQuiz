@@ -19,7 +19,7 @@ h1 {
     align-items: center;
 }
 
-.play-button {
+.play-button, .button {
     display: inline-block;
     background-color: white;
     color: darkblue;
@@ -31,7 +31,7 @@ h1 {
     transition: background-color 0.3s ease;
 }
 
-.play-button:hover {
+.play-button:hover, .button:hover {
     background-color: #ddd;
 }
 
@@ -50,6 +50,7 @@ h1 {
 .choice:hover {
     background-color: #ddd;
 }
+
 .correct {
     background-color: green;
     color: white;
@@ -58,4 +59,63 @@ h1 {
 .incorrect {
     background-color: red;
     color: white;
+}
+
+.hud {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 20px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+.hud-item {
+    font-size: 1.2em;
+    color: darkblue;
+    text-align: center;
+}
+
+.hud-item p {
+    margin: 0;
+}
+
+#question-number, #score {
+    font-size: 2em;
+    font-weight: bold;
+    color: #1e90ff;
+}
+
+#question-text {
+    margin-top: 20px;
+}
+
+.progress-container {
+    background-color: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 100px;
+    height: 10px;
+    margin-top: 10px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0;
+    background-color: #4caf50;
+    transition: width 0.3s ease;
+}
+
+#end-page {
+    text-align: center;
+}
+
+#final-score {
+    font-size: 4em;
+    color: #1e90ff;
+}
+
+.button {
+    width: 150px;
+    padding: 10px;
 }

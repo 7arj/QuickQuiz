@@ -10,11 +10,29 @@
         <a href="#" class="play-button">Play</a>
     </div>
     <div class="question" id="question-page" style="display: none;">
-        <h1>What is the answer to this question?</h1>
-        <a href="#" class="choice">A. Choice 1</a><br>
-        <a href="#" class="choice">B. Choice 2</a><br>
-        <a href="#" class="choice">C. Choice 3</a><br>
-        <a href="#" class="choice">D. Choice 4</a><br>
+        <div class="hud">
+            <div class="hud-item">
+                <p>Question</p>
+                <p id="question-number">1/4</p>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            </div>
+            <div class="hud-item">
+                <p>Score</p>
+                <p id="score">0</p>
+            </div>
+        </div>
+        <h1 id="question-text">What is the answer to this question?</h1>
+        <a href="#" class="choice" id="choice-0">A. Choice 1</a><br>
+        <a href="#" class="choice" id="choice-1">B. Choice 2</a><br>
+        <a href="#" class="choice" id="choice-2">C. Choice 3</a><br>
+        <a href="#" class="choice" id="choice-3">D. Choice 4</a><br>
+    </div>
+    <div class="quiz-container" id="end-page" style="display: none;">
+        <h1 id="final-score">0</h1>
+        <a href="#" class="button" id="play-again-button">Play Again</a>
+        <a href="#" class="button" id="go-home-button">Go Home</a>
     </div>
     <script src="script.js"></script>
 </body>

@@ -24,12 +24,13 @@ const questions = [
 
 let askedQuestions = [];
 let selectedQuestion;
+let score = 0;
+let currentQuestionIndex = 0;
 
 // Function to display a random question
 function displayRandomQuestion() {
     if (askedQuestions.length === questions.length) {
-        alert("Quiz over! You've answered all the questions.");
-        // Optionally, reset the quiz here if needed
+        displayEndPage();
         return;
     }
 
@@ -40,6 +41,12 @@ function displayRandomQuestion() {
 
     askedQuestions.push(randomIndex);
     selectedQuestion = questions[randomIndex];
+    currentQuestionIndex++;
+
+    // Update HUD
+    document.getElementById('question-number').textContent = `${currentQuestionIndex}/${questions.length}`;
+    document.getElementById('score').textContent = `${score}`;
+    updateProgressBar();
 
     // Set the question text
     document.querySelector('#question-page h1').textContent = selectedQuestion.question;
@@ -47,9 +54,17 @@ function displayRandomQuestion() {
     // Set the choices text
     const choices = document.querySelectorAll('.choice');
     for (let i = 0; i < choices.length; i++) {
-        choices[i].textContent = selectedQuestion.choices[i];
+        if (i < selectedQuestion.choices.length) {
+            choices[i].textContent = selectedQuestion.choices[i];
+            choices[i].style.display = 'inline-block'; // Show choice
+        } else {
+            choices[i].style.display = 'none'; // Hide unused choices
+        }
         choices[i].classList.remove('correct', 'incorrect'); // Reset any previous styling
+        choices[i].style.pointerEvents = 'auto'; // Re-enable clicking
     }
+
+    console.log('Displayed question:', selectedQuestion.question);
 }
 
 // Event listener for the play button
@@ -61,17 +76,64 @@ document.querySelector('.play-button').addEventListener('click', function(event)
 });
 
 // Event listeners for the choice buttons
-var choices = document.querySelectorAll('.choice');
+const choices = document.querySelectorAll('.choice');
 choices.forEach(function(choice) {
     choice.addEventListener('click', function() {
-        if (this.textContent === selectedQuestion.correct) {
-            this.classList.add('correct');
-        } else {
-            this.classList.add('incorrect');
+        const isCorrect = this.textContent === selectedQuestion.correct;
+        console.log('User selected:', this.textContent);
+        console.log('Correct answer:', selectedQuestion.correct);
+
+        this.classList.add(isCorrect ? 'correct' : 'incorrect');
+
+        if (isCorrect) {
+            score += 10;
         }
+
+        // Disable further clicks until the next question is displayed
+        choices.forEach(function(c) {
+            c.style.pointerEvents = 'none';
+        });
 
         setTimeout(function() {
             displayRandomQuestion();
-        }, 1000); // Wait 1 second before showing the next question
+        }, 500); // Wait 0.5 seconds before showing the next question
     });
 });
+
+// Function to update the progress bar
+function updateProgressBar() {
+    const progressBar = document.getElementById('progress-bar');
+    const progress = (currentQuestionIndex / questions.length) * 100;
+    progressBar.style.width = `${progress}%`;
+}
+
+// Function to display the end page
+function displayEndPage() {
+    document.getElementById('question-page').style.display = 'none';
+    document.getElementById('end-page').style.display = 'flex';
+    document.getElementById('final-score').textContent = score;
+}
+
+// Event listeners for the end page buttons
+document.getElementById('play-again-button').addEventListener('click', function(event) {
+    event.preventDefault();
+    resetQuiz();
+    document.getElementById('end-page').style.display = 'none';
+    document.getElementById('question-page').style.display = 'flex';
+    displayRandomQuestion();
+});
+
+document.getElementById('go-home-button').addEventListener('click', function(event) {
+    event.preventDefault();
+    resetQuiz();
+    document.getElementById('end-page').style.display = 'none';
+    document.getElementById('landing-page').style.display = 'flex';
+});
+
+function resetQuiz() {
+    askedQuestions = [];
+    selectedQuestion = null;
+    score = 0;
+    currentQuestionIndex = 0;
+    updateProgressBar();
+}
